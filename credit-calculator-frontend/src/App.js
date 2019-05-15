@@ -10,7 +10,7 @@ import image3 from './images/background-image-3.jpg';
 function App() {
     return (
         <div className="App">
-            <Carousel options={{fullWidth: true, indicators: true, padding: 60}} images={[
+            <Carousel options={{fullWidth: true, indicators: true, padding: 60, duration: 300}} images={[
                 image1,
                 image2,
                 image3
