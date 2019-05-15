@@ -1,24 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import 'materialize-css/dist/css/materialize.min.css';
+import 'materialize-css/dist/js/materialize.min.js'
+import {Carousel} from 'react-materialize';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <Carousel options={{fullWidth: true,indicators: true}} images={[
+            'https://picsum.photos/250/250?image=0',
+            'https://picsum.photos/250/250?image=1',
+            'https://picsum.photos/250/250?image=2'
+            ]} />
     </div>
   );
 }
