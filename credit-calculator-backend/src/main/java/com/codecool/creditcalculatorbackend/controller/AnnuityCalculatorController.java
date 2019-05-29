@@ -21,15 +21,14 @@ public class AnnuityCalculatorController {
     public double getMonthlyPaymentByData(@RequestBody AnnuityCalculator calculator) {
         double monthlyPayment = annuityCalculatorService.getMonthlyPaymentByData(calculator.getLoanAmount(),
                 calculator.getInterestRate(), calculator.getRepaymentTime());
-        System.out.println("1 request for /monthly-payment ");
         return monthlyPayment;
 
     }
 
     @GetMapping("/loan-amount")
-    public double getLoanAmountByData(@RequestBody AnnuityCalculator calculator){
+    public double getLoanAmountByData(@RequestBody AnnuityCalculator calculator) {
         double loanAmount = annuityCalculatorService.getLoanAmountByData(calculator.getInterestRate(),
-                calculator.getRepaymentTime(),calculator.getMonthlyPayment());
+                calculator.getRepaymentTime(), calculator.getMonthlyPayment());
         return loanAmount;
     }
 

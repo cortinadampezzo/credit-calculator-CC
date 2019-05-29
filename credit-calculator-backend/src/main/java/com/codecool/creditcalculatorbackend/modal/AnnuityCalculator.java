@@ -18,12 +18,8 @@ public class AnnuityCalculator {
     @GeneratedValue
     private long id;
 
-    @Column
     private double loanAmount;
-
-    @Column
     private double interestRate;
-
     private double repaymentTime;
     private double monthlyPayment;
 
