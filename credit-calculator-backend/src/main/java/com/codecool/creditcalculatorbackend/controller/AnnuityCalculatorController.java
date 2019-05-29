@@ -26,4 +26,11 @@ public class AnnuityCalculatorController {
 
     }
 
+    @GetMapping("/loan-amount")
+    public double getLoanAmountByData(@RequestBody AnnuityCalculator calculator){
+        double loanAmount = annuityCalculatorService.getLoanAmountByData(calculator.getInterestRate(),
+                calculator.getRepaymentTime(),calculator.getMonthlyPayment());
+        return loanAmount;
+    }
+
 }

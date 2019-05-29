@@ -12,8 +12,20 @@ public class AnnuityCalculatorService {
     private AnnuityCalculatorRepo calculatorRepo;
 
     public double getLoanAmountByData(double interestRate, double repaymentTime, double monthlyPayment) {
-        double loanAmount = 0.0;
-        return loanAmount;
+        AnnuityCalculator calculator = AnnuityCalculator.builder()
+                .interestRate(interestRate)
+                .repaymentTime(repaymentTime)
+                .monthlyPayment(monthlyPayment)
+                .build();
+
+        double creditInterest = interestRate / 100;
+        double power = Math.pow((1 + creditInterest), repaymentTime);
+        double loanAmount = (monthlyPayment * 12 * (1 - (1 /  power))) / creditInterest;
+
+        calculator.setLoanAmount(loanAmount);
+        calculatorRepo.saveAndFlush(calculator);
+
+        return calculator.getLoanAmount();
     }
 
     public double getInterestRateByData(double loanAmount, double repaymentTime, double monthlyPayment) {
