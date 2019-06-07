@@ -32,4 +32,11 @@ public class AnnuityCalculatorController {
         return loanAmount;
     }
 
+    @GetMapping("/repayment-time")
+    public double getRepaymentTime(@RequestBody AnnuityCalculator calculator) {
+        double repaymentTime = annuityCalculatorService.getRepaymentTimeByData(calculator.getLoanAmount(),
+                calculator.getInterestRate(), calculator.getMonthlyPayment());
+        return repaymentTime;
+    }
+
 }
