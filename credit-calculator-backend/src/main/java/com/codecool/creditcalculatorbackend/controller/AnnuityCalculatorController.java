@@ -40,4 +40,10 @@ public class AnnuityCalculatorController {
         return repaymentTime;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping("/result")
+    public AnnuityCalculator getLastItem() {
+        return annuityCalculatorService.getLastId();
+    }
+
 }

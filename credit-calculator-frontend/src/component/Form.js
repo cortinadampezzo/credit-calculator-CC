@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import 'materialize-css/dist/js/materialize.min.js';
-import {BrowserRouter as Router, Route, Redirect, Link} from 'react-router-dom';
+import {BrowserRouter as Router, Redirect, Link} from 'react-router-dom';
 import {TextInput, Button, Row, Col, Card, Modal} from 'react-materialize';
 
 class Form extends Component {
 
-    isClicked = false;
     constructor(props) {
         super(props);
 
@@ -91,41 +90,37 @@ class Form extends Component {
                 )
             });
         }
-//        fetch('http://localhost:8000/')
-//            .then(response => response.json());
-        this.isClicked = true;
-        console.log(this.state.data);
-        console.log(this.state.data.monthlyPayment)
     }
 
     showResult() {
-        if (this.isClicked === true) {
-            console.log(this.state.data.loanAmount);
-        }
+        fetch('http://localhost:8000/result',
+            {method: "PUT", headers: {"Content-Type": "application/json"}})
+            .then(response => response.json())
+            .then(data => this.setState({ data }));
     }
 
     render() {
         return (
             <Router>
-            <div>
-                <Row>
-                    <Col m={6} s={12}>
-                        <Card>
-                            <TextInput label="Loan amount" onChange={this.loanAmountChange.bind(this)}></TextInput>
-                            <TextInput label="Interest rate" onChange={this.interestRateChange.bind(this)}></TextInput>
-                            <TextInput label="Repayment time" onChange={this.repaymentTimeChange.bind(this)}></TextInput>
-                            <TextInput label="Monthly payment" onChange={this.monthlyPaymentChange.bind(this)}></TextInput>
-                            <Button type="submit" onClick={()=> {this.onSubmit(); console.log("ye")}}>Calculate</Button>
-                            <Modal trigger={<Button>Show result</Button>}>
-                                    Loan amount: {this.state.data.loanAmount} Ft <br/>
-                                    Interest rate: {this.state.data.interestRate} % <br />
-                                    Repayment time: {this.state.data.repaymentTime} years <br />
-                                    Monthly payment: {this.state.data.monthlyPayment} Ft/month
-                            </Modal>
-                        </Card>
-                    </Col>
-                </Row>
-            </div>
+                <div>
+                    <Row>
+                        <Col m={6} s={12}>
+                            <Card>
+                                <TextInput label="Loan amount" onChange={this.loanAmountChange.bind(this)}></TextInput>
+                                <TextInput label="Interest rate" onChange={this.interestRateChange.bind(this)}></TextInput>
+                                <TextInput label="Repayment time" onChange={this.repaymentTimeChange.bind(this)}></TextInput>
+                                <TextInput label="Monthly payment" onChange={this.monthlyPaymentChange.bind(this)}></TextInput>
+                                <Button type="submit" onClick={this.onSubmit.bind(this)}>Calculate</Button>
+                                <Modal trigger={<Link to="/result"><Button onClick={this.showResult.bind(this)}>Show result</Button></Link>}>
+                                        Loan amount: {this.state.data.loanAmount} Ft <br/>
+                                        Interest rate: {this.state.data.interestRate} % <br />
+                                        Repayment time: {this.state.data.repaymentTime} years <br />
+                                        Monthly payment: {this.state.data.monthlyPayment} Ft/month
+                                </Modal>
+                            </Card>
+                        </Col>
+                    </Row>
+                </div>
             </Router>
 
         );
