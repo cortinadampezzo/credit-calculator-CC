@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from "react-bootstrap/Form";
+import 'materialize-css/dist/css/materialize.min.css';
+import 'materialize-css/dist/js/materialize.min.js';
+import {BrowserRouter as Router, Route, Redirect, Link} from 'react-router-dom';
+import {TextInput, Button, Row, Col, Card, Modal} from 'react-materialize';
 
-class GenerateForm extends Component {
+class Form extends Component {
 
+    isClicked = false;
     constructor(props) {
         super(props);
 
@@ -90,49 +93,44 @@ class GenerateForm extends Component {
         }
 //        fetch('http://localhost:8000/')
 //            .then(response => response.json());
+        this.isClicked = true;
         console.log(this.state.data);
+        console.log(this.state.data.monthlyPayment)
+    }
+
+    showResult() {
+        if (this.isClicked === true) {
+            console.log(this.state.data.loanAmount);
+        }
     }
 
     render() {
         return (
+            <Router>
             <div>
-                <form className={"form"}>
-                    <Form.Group controlId="formLoanAmount">
-                        <Form.Label>Loan Amount</Form.Label>
-                        <Form.Control onChange={this.loanAmountChange.bind(this)} type="text" placeholder="Enter loan amount"/>
-                        <Form.Text className="text-muted">
-                            The amount of credit.
-                        </Form.Text>
-                    </Form.Group>
-                    <Form.Group controlId="formInterestingRate">
-                        <Form.Label>Interesting Rate</Form.Label>
-                        <Form.Control onChange={this.interestRateChange.bind(this)} type="text" placeholder="Enter interesting rate"/>
-                        <Form.Text className="text-muted">
-                            The credit's interest in percentage.
-                        </Form.Text>
-                    </Form.Group>
-                    <Form.Group controlId="formRepaymentTime">
-                        <Form.Label>Repayment Time</Form.Label>
-                        <Form.Control onChange={this.repaymentTimeChange.bind(this)} type="text" placeholder="Enter repayment time"/>
-                        <Form.Text className="text-muted">
-                            The credit's repayment time in year.
-                        </Form.Text>
-                    </Form.Group>
-                    <Form.Group controlId="formMonthlyPayment">
-                        <Form.Label>Monthly Payment</Form.Label>
-                        <Form.Control onChange={this.monthlyPaymentChange.bind(this)} type="text" placeholder="Enter monthly payment"/>
-                        <Form.Text className="text-muted">
-                            The credit's monthly payment.
-                        </Form.Text>
-                    </Form.Group>
-                    <Button type="submit" variant="outline-primary" size="lg" onClick={this.onSubmit.bind(this)}>Submit</Button>
-                </form>
-                <Button type="submit" variant="outline-primary" size="lg" onClick={this.onSubmit.bind(this)}>clickme</Button>
-
+                <Row>
+                    <Col m={6} s={12}>
+                        <Card>
+                            <TextInput label="Loan amount" onChange={this.loanAmountChange.bind(this)}></TextInput>
+                            <TextInput label="Interest rate" onChange={this.interestRateChange.bind(this)}></TextInput>
+                            <TextInput label="Repayment time" onChange={this.repaymentTimeChange.bind(this)}></TextInput>
+                            <TextInput label="Monthly payment" onChange={this.monthlyPaymentChange.bind(this)}></TextInput>
+                            <Button type="submit" onClick={()=> {this.onSubmit(); console.log("ye")}}>Calculate</Button>
+                            <Modal trigger={<Button>Show result</Button>}>
+                                    Loan amount: {this.state.data.loanAmount} Ft <br/>
+                                    Interest rate: {this.state.data.interestRate} % <br />
+                                    Repayment time: {this.state.data.repaymentTime} years <br />
+                                    Monthly payment: {this.state.data.monthlyPayment} Ft/month
+                            </Modal>
+                        </Card>
+                    </Col>
+                </Row>
             </div>
+            </Router>
+
         );
     }
 
 }
 
-export default GenerateForm;
+export default Form;
