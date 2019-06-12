@@ -11,7 +11,7 @@ class Form extends Component {
 
         this.state = {
             data: {
-            loanAmount: null
+            loanAmount: null,
             interestRate: null,
             repaymentTime: null,
             monthlyPayment: null}
