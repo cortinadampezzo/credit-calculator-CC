@@ -5,6 +5,8 @@ import com.codecool.creditcalculatorbackend.repository.AnnuityCalculatorRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.stream.Stream;
+
 @Service
 public class AnnuityCalculatorService {
 
@@ -68,6 +70,12 @@ public class AnnuityCalculatorService {
         calculatorRepo.saveAndFlush(calculator);
 
         return calculator.getMonthlyPayment();
+    }
+
+    public AnnuityCalculator getLastId() {
+        Stream<AnnuityCalculator> stream = calculatorRepo.findAll().stream();
+        AnnuityCalculator calculator = stream.reduce((first, second) -> second).orElse(null);
+        return calculator;
     }
 
 }
