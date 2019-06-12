@@ -6,6 +6,7 @@ import {TextInput, Button, Row, Col, Card, Modal} from 'react-materialize';
 
 class Form extends Component {
 
+    counter = 0;
     constructor(props) {
         super(props);
 
@@ -100,17 +101,20 @@ class Form extends Component {
     }
 
     render() {
+        let isEnabled = (this.state.data.loanAmount != null && this.state.data.interestRate != null && this.state.data.repaymentTime != null) ||
+            (this.state.data.loanAmount != null && this.state.data.interestRate != null && this.state.data.monthlyPayment != null) ||
+            (this.state.data.interestRate != null && this.state.data.repaymentTime != null && this.state.data.monthlyPayment != null);
         return (
             <Router>
                 <div>
                     <Row>
                         <Col m={6} s={12}>
                             <Card>
-                                <TextInput label="Loan amount" onChange={this.loanAmountChange.bind(this)}></TextInput>
-                                <TextInput label="Interest rate" onChange={this.interestRateChange.bind(this)}></TextInput>
-                                <TextInput label="Repayment time" onChange={this.repaymentTimeChange.bind(this)}></TextInput>
-                                <TextInput label="Monthly payment" onChange={this.monthlyPaymentChange.bind(this)}></TextInput>
-                                <Button type="submit" onClick={this.onSubmit.bind(this)}>Calculate</Button>
+                                <TextInput label="Loan amount" disabled={isEnabled} onChange={this.loanAmountChange.bind(this)}></TextInput>
+                                <TextInput label="Interest rate" disabled={isEnabled} onChange={this.interestRateChange.bind(this)}></TextInput>
+                                <TextInput label="Repayment time" disabled={isEnabled} onChange={this.repaymentTimeChange.bind(this)}></TextInput>
+                                <TextInput label="Monthly payment" disabled={isEnabled} onChange={this.monthlyPaymentChange.bind(this)}></TextInput>
+                                <Button type="submit" disabled={!isEnabled} onClick={this.onSubmit.bind(this)}>Calculate</Button>
                                 <Modal trigger={<Link to="/result"><Button onClick={this.showResult.bind(this)}>Show result</Button></Link>}>
                                         Loan amount: {this.state.data.loanAmount} Ft <br/>
                                         Interest rate: {this.state.data.interestRate} % <br />
