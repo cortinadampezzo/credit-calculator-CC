@@ -2,20 +2,19 @@ import React, {Component} from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import 'materialize-css/dist/js/materialize.min.js';
 import {BrowserRouter as Router, Redirect, Link} from 'react-router-dom';
-import {TextInput, Button, Row, Col, Card, Modal} from 'react-materialize';
+import {TextInput, Button, Row, Col, Card, Modal, Icon} from 'react-materialize';
 
 class Form extends Component {
 
-    counter = 0;
     constructor(props) {
         super(props);
 
         this.state = {
             data: {
-            loanAmount: null,
-            interestRate: null,
-            repaymentTime: null,
-            monthlyPayment: null}
+            loanAmount: '',
+            interestRate: '',
+            repaymentTime: '',
+            monthlyPayment: ''}
         };
     }
 
@@ -45,7 +44,7 @@ class Form extends Component {
 
 
     onSubmit() {
-        if (this.state.data.monthlyPayment == null) {
+        if (this.state.data.monthlyPayment === '') {
             fetch('http://localhost:8000/monthly-payment', {
                 method: 'POST',
                 headers: {
@@ -60,7 +59,7 @@ class Form extends Component {
                     }
                 )
             });
-        } else if (this.state.data.loanAmount == null) {
+        } else if (this.state.data.loanAmount === '') {
             fetch('http://localhost:8000/loan-amount', {
                 method: 'POST',
                 headers: {
@@ -75,7 +74,7 @@ class Form extends Component {
                     }
                 )
             });
-        } else if (this.state.data.repaymentTime == null) {
+        } else if (this.state.data.repaymentTime === '') {
             fetch('http://localhost:8000/repayment-time', {
                 method: 'POST',
                 headers: {
@@ -101,20 +100,21 @@ class Form extends Component {
     }
 
     render() {
-        let isEnabled = (this.state.data.loanAmount != null && this.state.data.interestRate != null && this.state.data.repaymentTime != null) ||
-            (this.state.data.loanAmount != null && this.state.data.interestRate != null && this.state.data.monthlyPayment != null) ||
-            (this.state.data.interestRate != null && this.state.data.repaymentTime != null && this.state.data.monthlyPayment != null);
+        let isEnabled = (this.state.data.loanAmount.length > 0 && this.state.data.interestRate.length > 0 && this.state.data.repaymentTime.length > 0) ||
+            (this.state.data.loanAmount.length > 0 && this.state.data.interestRate.length > 0 && this.state.data.monthlyPayment.length > 0) ||
+            (this.state.data.interestRate.length > 0 && this.state.data.repaymentTime.length > 0 && this.state.data.monthlyPayment.length > 0);
+        let four = this.state.data.loanAmount.length > 0 && this.state.data.interestRate.length > 0 && this.state.data.repaymentTime.length > 0 && this.state.data.monthlyPayment.length > 0;
         return (
             <Router>
                 <div>
                     <Row>
                         <Col m={6} s={12}>
                             <Card>
-                                <TextInput label="Loan amount" disabled={isEnabled} onChange={this.loanAmountChange.bind(this)}></TextInput>
-                                <TextInput label="Interest rate" disabled={isEnabled} onChange={this.interestRateChange.bind(this)}></TextInput>
-                                <TextInput label="Repayment time" disabled={isEnabled} onChange={this.repaymentTimeChange.bind(this)}></TextInput>
-                                <TextInput label="Monthly payment" disabled={isEnabled} onChange={this.monthlyPaymentChange.bind(this)}></TextInput>
-                                <Button type="submit" disabled={!isEnabled} onClick={this.onSubmit.bind(this)}>Calculate</Button>
+                                <TextInput label="Loan amount" onChange={this.loanAmountChange.bind(this)}></TextInput>
+                                <TextInput label="Interest rate" onChange={this.interestRateChange.bind(this)}></TextInput>
+                                <TextInput label="Repayment time" onChange={this.repaymentTimeChange.bind(this)}></TextInput>
+                                <TextInput label="Monthly payment" onChange={this.monthlyPaymentChange.bind(this)}></TextInput>
+                                <Button type="submit" disabled={!isEnabled || four} onClick={this.onSubmit.bind(this)}>Calculate</Button>
                                 <Modal trigger={<Link to="/result"><Button onClick={this.showResult.bind(this)}>Show result</Button></Link>}>
                                         Loan amount: {this.state.data.loanAmount} Ft <br/>
                                         Interest rate: {this.state.data.interestRate} % <br />
