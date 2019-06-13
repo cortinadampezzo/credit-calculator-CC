@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import 'materialize-css/dist/js/materialize.min.js';
-import {BrowserRouter as Router, Redirect, Link} from 'react-router-dom';
+import {BrowserRouter as Router, Redirect} from 'react-router-dom';
 import {TextInput, Button, Row, Col, Card, Modal} from 'react-materialize';
 
 class Form extends Component {
@@ -11,10 +11,10 @@ class Form extends Component {
 
         this.state = {
             data: {
-            loanAmount: null,
-            interestRate: null,
-            repaymentTime: null,
-            monthlyPayment: null}
+            loanAmount: '',
+            interestRate: '',
+            repaymentTime: '',
+            monthlyPayment: ''}
         };
     }
 
@@ -44,7 +44,7 @@ class Form extends Component {
 
 
     onSubmit() {
-        if (this.state.data.monthlyPayment == null) {
+        if (this.state.data.monthlyPayment === '') {
             fetch('http://localhost:8000/monthly-payment', {
                 method: 'POST',
                 headers: {
@@ -59,7 +59,7 @@ class Form extends Component {
                     }
                 )
             });
-        } else if (this.state.data.loanAmount == null) {
+        } else if (this.state.data.loanAmount === '') {
             fetch('http://localhost:8000/loan-amount', {
                 method: 'POST',
                 headers: {
@@ -74,7 +74,7 @@ class Form extends Component {
                     }
                 )
             });
-        } else if (this.state.data.repaymentTime == null) {
+        } else if (this.state.data.repaymentTime === '') {
             fetch('http://localhost:8000/repayment-time', {
                 method: 'POST',
                 headers: {
@@ -90,16 +90,21 @@ class Form extends Component {
                 )
             });
         }
-    }
+        this.state.data = '';
+        setTimeout(() => {
+            fetch('http://localhost:8000/result',
+                {method: "PUT", headers: {"Content-Type": "application/json"}})
+                .then(response => response.json())
+                .then(data => this.setState({data}));
+        }, 500);
 
-    showResult() {
-        fetch('http://localhost:8000/result',
-            {method: "PUT", headers: {"Content-Type": "application/json"}})
-            .then(response => response.json())
-            .then(data => this.setState({ data }));
     }
 
     render() {
+        let isEnabled = (this.state.data.loanAmount.length > 0 && this.state.data.interestRate.length > 0 && this.state.data.repaymentTime.length > 0) ||
+            (this.state.data.loanAmount.length > 0 && this.state.data.interestRate.length > 0 && this.state.data.monthlyPayment.length > 0) ||
+            (this.state.data.interestRate.length > 0 && this.state.data.repaymentTime.length > 0 && this.state.data.monthlyPayment.length > 0);
+        let four = this.state.data.loanAmount.length > 0 && this.state.data.interestRate.length > 0 && this.state.data.repaymentTime.length > 0 && this.state.data.monthlyPayment.length > 0;
         return (
             <Router>
                 <div>
@@ -110,12 +115,12 @@ class Form extends Component {
                                 <TextInput label="Interest rate" onChange={this.interestRateChange.bind(this)}></TextInput>
                                 <TextInput label="Repayment time" onChange={this.repaymentTimeChange.bind(this)}></TextInput>
                                 <TextInput label="Monthly payment" onChange={this.monthlyPaymentChange.bind(this)}></TextInput>
-                                <Button type="submit" onClick={this.onSubmit.bind(this)}>Calculate</Button>
-                                <Modal trigger={<Link to="/result"><Button onClick={this.showResult.bind(this)}>Show result</Button></Link>}>
-                                        Loan amount: {this.state.data.loanAmount} Ft <br/>
-                                        Interest rate: {this.state.data.interestRate} % <br />
-                                        Repayment time: {this.state.data.repaymentTime} years <br />
-                                        Monthly payment: {this.state.data.monthlyPayment} Ft/month
+                                <Button  href="#modal1" className="modal-trigger" disabled={!isEnabled || four} onClick={this.onSubmit.bind(this)}>Calculate</Button>
+                                <Modal id="modal1" >
+                                    <p>Loan amount: {this.state.data.loanAmount} Ft </p>
+                                    <p>Interest rate: {this.state.data.interestRate} % </p>
+                                    <p>Repayment time: {this.state.data.repaymentTime} years </p>
+                                    <p>Monthly payment: {this.state.data.monthlyPayment} Ft/month </p>
                                 </Modal>
                             </Card>
                         </Col>
