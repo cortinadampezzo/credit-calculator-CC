@@ -36,6 +36,45 @@ body {
     }
 }
 
+@media only screen and (min-width: 750px) {
+    .my-card {
+        margin-right: 100px;
+        margin-left: 100px;
+        position: center;
+        width: 50%;
+        top: 20%;
+        left: 23.5%;
+        right: 23.5%;
+
+    }
+}
+
+@media only screen and (max-width: 749px) {
+    .my-card {
+        margin-right: 10px;
+        margin-left: 10px;
+        position: center;
+        width: 75%;
+        top: 7.5%;
+        left: 12.5%;
+        right: 12.5%;
+
+    }
+}
+
+@media only screen and (max-width: 375px) {
+    .my-card {
+        margin-right: 10px;
+        margin-left: 10px;
+        position: center;
+        width: 95%;
+        top: 2.5%;
+        left: 2.5%;
+        right: 2.5%;
+
+    }
+}
+
 /*
 .form {
     height: 80vh;
