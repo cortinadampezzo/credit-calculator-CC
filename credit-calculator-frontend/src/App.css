@@ -97,3 +97,7 @@ body {
 .modal {
     height: 50%;
 }
+
+.modal .modal-close {
+    display: none;
+}
