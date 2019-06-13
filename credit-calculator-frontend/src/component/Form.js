@@ -122,6 +122,7 @@ class Form extends Component {
                                         You must fill the interest rate field and two other optional fields.<br /><br />
                                         Please keep mind that if you choose unreal numbers, the calculator might not work perfectly.</p>
                                         <p align="right">© János Márton & Gábor Gansperger 2019</p>
+                                    <a href="/"><Button>Close</Button></a>
                                 </Modal>
                                 <Button  href="#modal1" className="modal-trigger" disabled={!isEnabled || four} onClick={this.onSubmit.bind(this)}>Calculate</Button>
                                 <Modal id="modal1" header="Details">
@@ -129,6 +130,7 @@ class Form extends Component {
                                     <p>Interest rate: {this.state.data.interestRate} % </p>
                                     <p>Repayment time: {this.state.data.repaymentTime} years </p>
                                     <p>Monthly payment: {this.state.data.monthlyPayment} Ft/month </p>
+                                    <a href="/"><Button>Close</Button></a>
                                 </Modal>
                             </Card>
                         </Col>
