@@ -23,7 +23,8 @@ public class AnnuityCalculatorService {
         double creditInterest = interestRate / 1200;
         double numberOfMonth = repaymentTime * 12;
         double power = Math.pow((1 + creditInterest), numberOfMonth);
-        double loanAmount =  monthlyPayment * ((1 / creditInterest) - (1 / (creditInterest * power)));
+        double loanAmount = monthlyPayment * ((1 / creditInterest) - (1 / (creditInterest * power)));
+        loanAmount = Math.round(loanAmount);
 
         calculator.setLoanAmount(loanAmount);
         calculatorRepo.saveAndFlush(calculator);
@@ -45,10 +46,10 @@ public class AnnuityCalculatorService {
 
         double creditInterest = interestRate / 1200;
         double numberOfMonth = Math.log10(monthlyPayment / (monthlyPayment - (loanAmount * creditInterest))) / (Math.log10(1 + creditInterest));
-//        double roundMonthes = Math.round(numberOfMonth);
-//        double repaymentTime = roundMonthes / 12;
+        double repaymentTime = numberOfMonth / 12;
+        repaymentTime = Math.round(repaymentTime);
 
-        double repaymentTime = numberOfMonth /12;
+//        double repaymentTime = numberOfMonth /12;
 
         calculator.setRepaymentTime(repaymentTime);
         calculatorRepo.saveAndFlush(calculator);
@@ -67,6 +68,8 @@ public class AnnuityCalculatorService {
         double numberOfMonth = repaymentTime * 12;
         double power = Math.pow((1 + creditInterest), numberOfMonth);
         double monthlyPayment = loanAmount / ((1 / creditInterest) - (1 / (creditInterest * power)));
+
+        monthlyPayment = Math.round(monthlyPayment);
 
         calculator.setMonthlyPayment(monthlyPayment);
         calculatorRepo.saveAndFlush(calculator);
