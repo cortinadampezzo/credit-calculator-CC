@@ -111,12 +111,20 @@ class Form extends Component {
                     <Row>
                         <Col m={6} s={12}>
                             <Card title="Credit Calculator" className="my-card">
-                                <TextInput label="Loan amount" onChange={this.loanAmountChange.bind(this)}></TextInput>
-                                <TextInput label="Interest rate" onChange={this.interestRateChange.bind(this)}></TextInput>
-                                <TextInput label="Repayment time" onChange={this.repaymentTimeChange.bind(this)}></TextInput>
-                                <TextInput label="Monthly payment" onChange={this.monthlyPaymentChange.bind(this)}></TextInput>
+                                <TextInput type="number" label="Loan amount (Ft)" onChange={this.loanAmountChange.bind(this)}></TextInput>
+                                <TextInput type="number" label="Interest rate (%)" onChange={this.interestRateChange.bind(this)}></TextInput>
+                                <TextInput type="number" label="Repayment time (years)" onChange={this.repaymentTimeChange.bind(this)}></TextInput>
+                                <TextInput type="number" label="Monthly payment (Ft/month)" onChange={this.monthlyPaymentChange.bind(this)}></TextInput>
+                                <Button href="#help" className="modal-trigger">Help</Button>
+                                <Modal id="help" header="Help">
+                                    <p>This is our credit calculator.<br />
+                                        If you have three parameter of your credit, you can easily count the fourth.<br />
+                                        You must fill the interest rate field and two other optional fields.<br /><br />
+                                        Please keep mind that if you choose unreal numbers, the calculator might not work perfectly.</p>
+                                        <p align="right">© János Márton & Gábor Gansperger 2019</p>
+                                </Modal>
                                 <Button  href="#modal1" className="modal-trigger" disabled={!isEnabled || four} onClick={this.onSubmit.bind(this)}>Calculate</Button>
-                                <Modal id="modal1" >
+                                <Modal id="modal1" header="Details">
                                     <p>Loan amount: {this.state.data.loanAmount} Ft </p>
                                     <p>Interest rate: {this.state.data.interestRate} % </p>
                                     <p>Repayment time: {this.state.data.repaymentTime} years </p>
