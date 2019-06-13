@@ -45,11 +45,11 @@ public class AnnuityCalculatorService {
                 .build();
 
         double creditInterest = interestRate / 1200;
-        double numberOfMonth = Math.log10(monthlyPayment / (monthlyPayment - (loanAmount * creditInterest))) / (Math.log10(1 + creditInterest));
+        double numberOfMonth = Math.log10(monthlyPayment /
+                (monthlyPayment - (loanAmount * creditInterest))) / (Math.log10(1 + creditInterest));
         double repaymentTime = numberOfMonth / 12;
         repaymentTime = Math.round(repaymentTime);
 
-//        double repaymentTime = numberOfMonth /12;
 
         calculator.setRepaymentTime(repaymentTime);
         calculatorRepo.saveAndFlush(calculator);
