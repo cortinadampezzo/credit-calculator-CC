@@ -6,6 +6,11 @@ import {TextInput, Button, Row, Col, Card, Modal} from 'react-materialize';
 
 class Form extends Component {
 
+    postMonthlyPayment = "http://localhost:8000/monthly-payment";
+    postLoanAmount = "http://localhost:8000/loan-amount";
+    postRepaymentTime = "http://localhost:8000/repayment-time";
+    getResult = "http://localhost:8000/result";
+
     constructor(props) {
         super(props);
 
@@ -45,54 +50,39 @@ class Form extends Component {
 
     onSubmit() {
         if (this.state.data.monthlyPayment === '') {
-            fetch('http://localhost:8000/monthly-payment', {
+            fetch(this.postMonthlyPayment, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                        loanAmount: this.state.data.loanAmount,
-                        monthlyPayment: this.state.data.monthlyPayment,
-                        interestRate: this.state.data.interestRate,
-                        repaymentTime: this.state.data.repaymentTime
-                    }
+                body: JSON.stringify({...this.state.data}
                 )
             });
         } else if (this.state.data.loanAmount === '') {
-            fetch('http://localhost:8000/loan-amount', {
+            fetch(this.postLoanAmount, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                        loanAmount: this.state.data.loanAmount,
-                        monthlyPayment: this.state.data.monthlyPayment,
-                        interestRate: this.state.data.interestRate,
-                        repaymentTime: this.state.data.repaymentTime
-                    }
+                body: JSON.stringify({...this.state.data}
                 )
             });
         } else if (this.state.data.repaymentTime === '') {
-            fetch('http://localhost:8000/repayment-time', {
+            fetch(this.postRepaymentTime, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                        loanAmount: this.state.data.loanAmount,
-                        monthlyPayment: this.state.data.monthlyPayment,
-                        interestRate: this.state.data.interestRate,
-                        repaymentTime: this.state.data.repaymentTime
-                    }
+                body: JSON.stringify({...this.state.data}
                 )
             });
         }
         this.state.data = '';
         setTimeout(() => {
-            fetch('http://localhost:8000/result',
+            fetch(this.getResult,
                 {method: "PUT", headers: {"Content-Type": "application/json"}})
                 .then(response => response.json())
                 .then(data => this.setState({data}));
