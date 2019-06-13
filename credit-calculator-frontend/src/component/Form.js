@@ -110,7 +110,7 @@ class Form extends Component {
                 <div>
                     <Row>
                         <Col m={6} s={12}>
-                            <Card>
+                            <Card className="my-card">
                                 <TextInput label="Loan amount" onChange={this.loanAmountChange.bind(this)}></TextInput>
                                 <TextInput label="Interest rate" onChange={this.interestRateChange.bind(this)}></TextInput>
                                 <TextInput label="Repayment time" onChange={this.repaymentTimeChange.bind(this)}></TextInput>
