@@ -1,4 +1,4 @@
-package com.codecool.creditcalculatorbackend.modal;
+package com.codecool.creditcalculatorbackend.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
